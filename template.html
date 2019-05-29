@@ -1,0 +1,20 @@
+<div id="editor">hello</div>
+<script>${quillLibrary}</script>
+<script>
+    document.getSelection = function() {
+        return {
+            getRangeAt: function() { }
+        };
+    };
+    document.attachEvent = function(event) {
+        return {
+            getRangeAt: function() { }
+        };
+    };
+    document.execCommand = function (command, showUI, value) {
+        try {
+            return document.execCommand(command, showUI, value);
+        } catch(e) {}
+        return false;
+    };
+</script>
