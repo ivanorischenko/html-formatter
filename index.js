@@ -46,6 +46,8 @@ const QUILL = new DOM.window.Quill('#editor', {
 });
 
 const port = 3000;
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(bodyParser.json());
 
 app.post('/parse-html', function (req, res) {
