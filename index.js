@@ -56,20 +56,23 @@ app.post('/parse-html', function (req, res) {
         res.status(500).json({ error: 'Not found html param in request' })
     }
 
-    let tempHtml = req.body.html;
-
-    do {
-        tempHtml = req.body.html;
-        let delta = QUILL.clipboard.convert(req.body.html);
-        QUILL.setContents(delta);
-    } while (req.body.html !== tempHtml);
-
     let delta = QUILL.clipboard.convert(req.body.html);
     QUILL.setContents(delta);
 
+    let tempHtml;
+    let html = QUILL.root.innerHTML;
+
+    do {
+        tempHtml = html;
+        html = html.replace(/^<p><br><\/p>/,'');
+        delta = QUILL.clipboard.convert(html);
+        QUILL.setContents(delta);
+        html = QUILL.root.innerHTML
+    } while (html !== tempHtml);
+
     res.json({
         'text': QUILL.getText(),
-        'html': QUILL.root.innerHTML
+        'html': html
     });
 });
 
